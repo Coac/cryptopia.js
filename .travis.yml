@@ -1,0 +1,18 @@
+dist: trusty
+sudo: false
+cache: yarn
+addons:
+  apt:
+    sources:
+      - sourceline: 'deb https://dl.yarnpkg.com/debian/ stable main'
+        key_url: 'https://dl.yarnpkg.com/debian/pubkey.gpg'
+    packages:
+      - yarn
+language: node_js
+node_js:
+    - 6
+install:
+    - yarn
+script:
+    - yarn run lint
+    - yarn test
