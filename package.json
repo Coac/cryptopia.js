@@ -4,7 +4,7 @@
   "description": "Cryptopia exchange api wrapper",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Coac/cryptopia.js#readme",
   "devDependencies": {
+    "ava": "^0.22.0",
     "eslint-config-standard": "^10.2.1",
     "standard": "^10.0.3"
   },
