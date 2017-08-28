@@ -25,5 +25,9 @@
   "devDependencies": {
     "eslint-config-standard": "^10.2.1",
     "standard": "^10.0.3"
+  },
+  "dependencies": {
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
   }
 }
