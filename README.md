@@ -2,6 +2,8 @@
 
 [Cryptopia](https://www.cryptopia.co.nz/Exchange/) exchange api wrapper
 
+[![npm version](https://badge.fury.io/js/cryptopia.js.svg)](https://www.npmjs.com/package/cryptopia.js)
+[![Build Status](https://travis-ci.org/Coac/cryptopia.js.svg?branch=master)](https://travis-ci.org/Coac/cryptopia.js)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 ## Installation
