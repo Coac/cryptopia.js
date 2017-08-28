@@ -1,4 +1,6 @@
 const rp = require('request-promise')
+const crypto = require('crypto')
+const nonce = require('nonce')()
 
 class Cryptopia {
   constructor (key, secret) {
@@ -49,6 +51,67 @@ class Cryptopia {
 
   async GetMarketOrderGroups (markets, orderCount) {
     return this._public('GetMarketOrderGroups', {markets, orderCount})
+  }
+
+  _private (endpoint, parameters) {
+    const _nonce = nonce()
+    const HASHED_POST_PARAMS = crypto.createHash('md5').update(JSON.stringify(parameters)).digest('base64')
+    const requestSignature = this.key + 'POST' + encodeURIComponent(this.API_URL + endpoint).toLowerCase() + _nonce + HASHED_POST_PARAMS
+    const hmacSignature = crypto.createHmac('sha256', Buffer.from(this.secret, 'base64')).update(requestSignature).digest('base64')
+    const authorization = 'amx ' + this.key + ':' + hmacSignature + ':' + _nonce
+
+    const options = {
+      method: 'POST',
+      uri: this.API_URL + endpoint,
+      body: parameters,
+      headers: {
+        'Authorization': authorization,
+        'Content-Type': 'application/json; charset=utf-8',
+        'Content-Length': Buffer.byteLength(JSON.stringify(parameters))
+      },
+      json: true
+    }
+
+    return rp(options)
+  }
+
+  async GetBalance (Currency) {
+    return this._private('GetBalance', {Currency})
+  }
+
+  async GetDepositAddress (Currency) {
+    return this._private('GetDepositAddress', {Currency})
+  }
+
+  async GetOpenOrders (Market, TradePairId, Count) {
+    return this._private('GetOpenOrders', {Market, TradePairId, Count})
+  }
+  async GetTradeHistory (Market, TradePairId, Count) {
+    return this._private('GetTradeHistory', {Market, TradePairId, Count})
+  }
+
+  async GetTransactions (Type, Count) {
+    return this._private('GetTransactions', {Type, Count})
+  }
+
+  async SubmitTrade (Market, TradePairId, Type, Rate, Amount) {
+    return this._private('SubmitTrade', {Market, TradePairId, Type, Rate, Amount})
+  }
+
+  async CancelTrade (Type, OrderId, TradePairId) {
+    return this._private('CancelTrade', {Type, OrderId, TradePairId})
+  }
+
+  async SubmitTip (Currency, ActiveUsers, Amount) {
+    return this._private('SubmitTip', {Currency, ActiveUsers, Amount})
+  }
+
+  async SubmitWithdraw (Currency, Address, PaymentId, Amount) {
+    return this._private('SubmitWithdraw', {Currency, Address, PaymentId, Amount})
+  }
+
+  async SubmitTransfer (Currency, Username, Amount) {
+    return this._private('SubmitTransfer', {Currency, Username, Amount})
   }
 }
 
